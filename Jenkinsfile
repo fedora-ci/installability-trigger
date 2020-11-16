@@ -12,6 +12,10 @@ pipeline {
         label 'master'
     }
 
+    options {
+        buildDiscarder(logRotator(daysToKeepStr: '45', artifactNumToKeepStr: '100'))
+    }
+
     triggers {
        ciBuildTrigger(
            noSquash: true,
