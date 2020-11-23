@@ -9,30 +9,30 @@ def allTaskIds = [] as Set
 pipeline {
 
     agent {
-        label 'master'
+        label 'installability-trigger'
     }
 
     options {
         buildDiscarder(logRotator(daysToKeepStr: '45', artifactNumToKeepStr: '100'))
     }
 
-    // triggers {
-    //    ciBuildTrigger(
-    //        noSquash: true,
-    //        providerList: [
-    //            rabbitMQSubscriber(
-    //                name: env.FEDORA_CI_MESSAGE_PROVIDER,
-    //                overrides: [
-    //                    topic: 'org.fedoraproject.prod.bodhi.update.status.testing.koji-build-group.build.complete',
-    //                    queue: 'osci-pipelines-queue-14'
-    //                ],
-    //                checks: [
-    //                    [field: '$.artifact.release', expectedValue: '^f34$']
-    //                ]
-    //            )
-    //        ]
-    //    )
-    // }
+    triggers {
+       ciBuildTrigger(
+           noSquash: true,
+           providerList: [
+               rabbitMQSubscriber(
+                   name: env.FEDORA_CI_MESSAGE_PROVIDER,
+                   overrides: [
+                       topic: 'org.fedoraproject.prod.bodhi.update.status.testing.koji-build-group.build.complete',
+                       queue: 'osci-pipelines-queue-14'
+                   ],
+                   checks: [
+                       [field: '$.artifact.release', expectedValue: '^f34$']
+                   ]
+               )
+           ]
+       )
+    }
 
     parameters {
         string(name: 'CI_MESSAGE', defaultValue: '{}', description: 'CI Message')
@@ -54,7 +54,7 @@ pipeline {
                                 artifactId = "koji-build:${taskId}"
                                 additionalArtifactIds = allTaskIds.findAll{ it != taskId }.collect{ "koji-build:${it}" }.join(',')
 
-                                build job: 'fedora-ci/installability-pipeline/master', wait: false, parameters: [ string(name: 'ARTIFACT_ID', value: artifactId), string(name: 'ADDITIONAL_ARTIFACT_IDS', value: additionalArtifactIds) ]
+                                // build job: 'fedora-ci/installability-pipeline/master', wait: false, parameters: [ string(name: 'ARTIFACT_ID', value: artifactId), string(name: 'ADDITIONAL_ARTIFACT_IDS', value: additionalArtifactIds) ]
                             }
                         }
                     }
