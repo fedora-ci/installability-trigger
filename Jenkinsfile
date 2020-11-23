@@ -54,7 +54,7 @@ pipeline {
                                 artifactId = "koji-build:${taskId}"
                                 additionalArtifactIds = allTaskIds.findAll{ it != taskId }.collect{ "koji-build:${it}" }.join(',')
 
-                                // build job: 'fedora-ci/installability-pipeline/master', wait: false, parameters: [ string(name: 'ARTIFACT_ID', value: artifactId), string(name: 'ADDITIONAL_ARTIFACT_IDS', value: additionalArtifactIds) ]
+                                build job: 'fedora-ci/installability-pipeline/master', wait: false, parameters: [ string(name: 'ARTIFACT_ID', value: artifactId), string(name: 'ADDITIONAL_ARTIFACT_IDS', value: additionalArtifactIds) ]
                             }
                         }
                     }
