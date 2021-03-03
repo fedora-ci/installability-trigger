@@ -55,8 +55,7 @@ pipeline {
                                 artifactId = "koji-build:${taskId}"
                                 additionalArtifactIds = allTaskIds.findAll{ it != taskId }.collect{ "koji-build:${it}" }.join(',')
 
-                                echo "Skipped: https://pagure.io/fesco/issue/2583"
-                                // build job: 'fedora-ci/installability-pipeline/master', wait: false, parameters: [ string(name: 'ARTIFACT_ID', value: artifactId), string(name: 'ADDITIONAL_ARTIFACT_IDS', value: additionalArtifactIds) ]
+                                build job: 'fedora-ci/installability-pipeline/master', wait: false, parameters: [ string(name: 'ARTIFACT_ID', value: artifactId), string(name: 'ADDITIONAL_ARTIFACT_IDS', value: additionalArtifactIds) ]
                             }
                         }
                     }
