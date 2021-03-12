@@ -51,8 +51,7 @@ pipeline {
                             allTaskIds.add(build['task_id'])
                         }
 
-                        releaseId = msg['artifact']['release']
-                        def testProfile = releaseId.replace('f', 'fedora-')
+                        def testProfile = msg['artifact']['release']
 
                         if (allTaskIds) {
                             allTaskIds.each { taskId ->
