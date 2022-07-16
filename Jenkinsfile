@@ -1,5 +1,12 @@
 #!groovy
 
+retry (10) {
+    // load pipeline configuration into the environment
+    httpRequest("${FEDORA_CI_PIPELINES_CONFIG_URL}/environment").content.split('\n').each { l ->
+        l = l.trim(); if (l && !l.startsWith('#')) { env["${l.split('=')[0].trim()}"] = "${l.split('=')[1].trim()}" }
+    }
+}
+
 
 def msg
 def artifactId
@@ -29,7 +36,7 @@ pipeline {
                        queue: 'osci-pipelines-queue-14'
                    ],
                    checks: [
-                       [field: '$.artifact.release', expectedValue: '^f37$']
+                       [field: '$.artifact.release', expectedValue: env.FEDORA_CI_RAWHIDE_RELEASE_ID]
                    ]
                )
            ]
