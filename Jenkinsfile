@@ -47,6 +47,11 @@ pipeline {
                     msg = readJSON text: CI_MESSAGE
 
                     if (msg) {
+
+                        if (msg['artifact']['builds'].size() > 15) {
+                            return
+                        }
+
                         msg['artifact']['builds'].each { build ->
                             allTaskIds.add(build['task_id'])
                         }
