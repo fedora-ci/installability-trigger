@@ -47,8 +47,8 @@ pipeline {
 
                     if (msg) {
 
-                        if (msg['artifact']['builds'].size() > 15) {
-                            echo "There are way too many (${msg['artifact']['builds'].size()} > 15) builds in the update. Skipping..."
+                        if (msg['artifact']['builds'].size() > 10) {
+                            echo "There are way too many (${msg['artifact']['builds'].size()} > 10) builds in the update. Skipping..."
                             return
                         }
 
