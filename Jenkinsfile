@@ -41,9 +41,6 @@ pipeline {
         stage('Trigger Testing') {
             steps {
                 script {
-                    echo "Skipping... installability test is currently not compatible with dnf5: https://pagure.io/fedora-ci/general/issue/416"
-                    return
-
                     msg = readJSON text: CI_MESSAGE
 
                     if (msg) {
