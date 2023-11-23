@@ -26,7 +26,7 @@ pipeline {
                        queue: 'osci-pipelines-queue-14'
                    ],
                    checks: [
-                       [field: '$.artifact.release', expectedValue: '^f40$']
+                       [field: '$.update.release.dist_tag', expectedValue: '^f40$']
                    ]
                )
            ]
@@ -45,8 +45,8 @@ pipeline {
 
                     if (msg) {
 
-                        if (msg['artifact']['builds'].size() > 10) {
-                            echo "There are way too many (${msg['artifact']['builds'].size()} > 10) builds in the update. Skipping..."
+                        if (msg['update']['builds'].size() > 10) {
+                            echo "There are way too many (${msg['update']['builds'].size()} > 10) builds in the update. Skipping..."
                             return
                         }
 
@@ -54,7 +54,7 @@ pipeline {
                             allTaskIds.add(build['task_id'])
                         }
 
-                        def testProfile = msg['artifact']['release']
+                        def testProfile = msg['update']['release']['dist_tag']
 
                         if (allTaskIds) {
                             allTaskIds.each { taskId ->
