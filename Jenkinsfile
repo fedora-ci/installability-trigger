@@ -1,5 +1,19 @@
 #!groovy
 
+// koji-build: trigger if the dist tag matches this regex
+def triggerDistTagRegEx = '^f[3-9]{1}[0-9]{1}$'
+
+// If this is a pull request, run these tests and quit
+if (env.CHANGE_ID) {
+    assert 'f42' ==~ triggerDistTagRegEx
+    assert 'f59' ==~ triggerDistTagRegEx
+
+    currentBuild.result = 'SUCCESS'
+    echo('All tests passed!')
+    return
+}
+
+
 def msg
 def artifactId
 def releaseId
@@ -26,7 +40,7 @@ pipeline {
                        queue: 'osci-pipelines-queue-14'
                    ],
                    checks: [
-                       [field: '$.update.release.dist_tag', expectedValue: '^f[3-9]{1}[0-9]{1}$']
+                       [field: '$.update.release.dist_tag', expectedValue: triggerDistTagRegEx]
                    ]
                )
            ]
