@@ -69,10 +69,11 @@ pipeline {
                             allTaskIds.add(build['task_id'])
                         }
 
+                        def testProfile
                         if (msg['update']['release']['branch'] == 'epel10') {
-                            def testProfile = 'epel10'
+                            testProfile = 'epel10'
                         } else {
-                            def testProfile = msg['update']['release']['dist_tag']
+                            testProfile = msg['update']['release']['dist_tag']
                         }
 
                         if (allTaskIds) {
