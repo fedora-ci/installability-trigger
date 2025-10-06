@@ -40,8 +40,8 @@ pipeline {
                        queue: 'osci-pipelines-queue-14'
                    ],
                    checks: [
-                       [field: '$.update.release.dist_tag', expectedValue: '^(f[3-9]{1}[0-9]{1}|epel10.[0-9]+)$'],
-                       [field: '$.update.release.branch', expectedValue: '^(f[3-9]{1}[0-9]{1}|rawhide|epel10)$']
+                       [field: '$.update.release.dist_tag', expectedValue: '^(f[3-9]{1}[0-9]{1}|eln|epel10.[0-9]+)$'],
+                       [field: '$.update.release.branch', expectedValue: '^(f[3-9]{1}[0-9]{1}|rawhide|eln|epel10)$']
                    ]
                )
            ]
