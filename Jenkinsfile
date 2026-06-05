@@ -40,6 +40,10 @@ pipeline {
                     def msg = readJSON text: CI_MESSAGE
 
                     if (msg) {
+                        if (msg['update']['builds'].size() > 20) {
+                            echo "There are way too many (${msg['update']['builds'].size()} > 20) builds in the update. Skipping..."
+                            return
+                        }
 
                         def bodhiId = msg['update']['updateid']
                         currentBuild.displayName = bodhiId
